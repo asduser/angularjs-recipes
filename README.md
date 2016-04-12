@@ -313,4 +313,35 @@ External libraries, modules and minified files should be located into a special 
 
 <i>For example:</i> jQuery, D3.js, Angular.js etc.
 
-## 12. Modals.   
+## 12. Modals.
+
+Often a modern Angular.js applications use modal windows for user interaction, which is especially useful when exist a lot of different dynamic interfaces. <i>For example:</i> content filters, confirmations, alerts, run-time installers etc.
+
+To simplify the main logic and prevent code duplication inside each of that modal window, include a special "ModalManager" where exist a common functional methods.
+
+```javascript
+
+// here is some actions within ModalManager controller.
+
+$scope.openFoodDetailsModal = function(size) {
+
+    var modalInstance = $modal.open({
+        templateUrl: 'source to .html',
+        controller: 'FoodDetailsController',
+        size: size,
+        resolve: {
+            numberCollection: function () {
+                return [1, 2, 3, 4, 5];
+            }
+        }
+    });
+
+    modalInstance.result.then(function (response) {
+        // some actions with response...
+    });
+
+};
+
+```
+
+As you see, we used a special component to manage our modals. At this point it doesn't matter, but it is important to understand how controllers may interact between them.
