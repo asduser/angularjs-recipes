@@ -18,7 +18,7 @@ But with the release the Angular.js, many beginner developers have written a lot
 
 <b>Solution:</b>
 
-Try to decrease the javascript uses inside html blocks. Do it so often as you can. It may cause some discomfort (you have to take care about application architecture), but after a time you reach a success.
+Try decrease the javascript uses inside html blocks. Do it so often as you can. It may cause some discomfort (you have to take care about application architecture), but after a time you reach a success.
 
 ## 2. Dont forget about ng-include.
 
@@ -47,7 +47,7 @@ Now, to make changes enough modify <i>my-tab1.html</i> or <i>my-tab2.html</i> wh
 
 ## 3. Explicit named variables.
 
-Dont try to mislead your teammates or another developers, who will support you code, they have enough problems. On the contrary, help them to read each line of code like a sentences of adventure book.
+Dont try mislead your teammates or another developers, who will support you code, they have enough problems. On the contrary, help them to read each line of code like a sentences of adventure book.
 
 For example:
 ```html
@@ -200,7 +200,7 @@ There is a reason why we need to use a directives deliberately. Use derectives o
 <ul>
 <li> Think twice, before you'll use some component. </li>
 <li> Use directives in places repetition code blocks. </li>
-<li> Be careful when you work with graphic elements, try to simplify an existing code as much as it possible. </li>
+<li> Be careful when you work with graphic elements, try simplify an existing code as much as it possible. </li>
 </ul>
 
 ## 9. Constants.
@@ -210,17 +210,13 @@ For a qualitative interation a several components we may take care about the pro
 ```javascript
 
 app.constant("userDetails", {
-
-   return {
     
-      "GENDER": {
-        "0": "Female",
-        "1": "Male"
-      },
-      
-      "MIN_AGE": 18
-   
-   }
+    "GENDER": {
+      "0": "Female",
+      "1": "Male"
+    },
+    
+    "MIN_AGE": 18
    
 });
 
@@ -235,14 +231,10 @@ Initial application settings, options for different components should be include
 ```javascript
 
 app.constant("APP_SETTINGS", {
-
-  return {
     
     "START_PAGE": "app.dashboard",
     "REDIRECT_UNAUTHORIZED": "app.login",
-    // another variables ...    
-  
-  }
+    // another variables ...
 
 });
 
@@ -297,7 +289,7 @@ Static jQuery #id handling, using another modules o factories to exapose some ad
 
 <b>Solution:</b>
 
-To solve that issue try to modify an existing service as much as it possible:
+To solve that issue try modify an existing service as much as it possible:
 
 <ul>
 <li> Get rid of extra dependencies. </li>
@@ -305,7 +297,7 @@ To solve that issue try to modify an existing service as much as it possible:
 <li> Don't use the static jQuery element handling. </li>
 </ul>
 
-But there are cases where the use of additional files to ensure correct operation of the module is necessary. Anyway, try to make "utils" service universal.
+But there are cases where the use of additional files to ensure correct operation of the module is necessary. Anyway, try make "utils" service universal.
 
 ## 11. Libraries.
 
@@ -344,4 +336,137 @@ $scope.openFoodDetailsModal = function(size) {
 
 ```
 
-As you see, we used a special component to manage our modals. At this point it doesn't matter, but it is important to understand how controllers may interact between them.
+As you see, we used a special component to manage our modals. At this point it doesn't matter, but it is important to understand how controllers may interact between themselves.
+
+<i>"openFoodDetailsModal"</i> method render a new window, which will retrieve specified <i>"FoodDetailsController"</i> and some data when it initializes. The last one contains in "resolve" field and it is a plain object, each field of which is a specific data type.
+
+To inject more different values enough add a new files, ex.:
+
+```javascript
+
+resolve: {
+            numberCollection: function () {
+                return [1, 2, 3, 4, 5];
+            },
+            user: $scope.currentUser
+        }
+
+```
+
+Moreover, you may transmit into it a current controller variables, collections, methods or even $rootScope parameters. Each new dependency injection passes throughout ModalManager and there is no need declare many different controllers, services only for delivering some data into specific modal windows.
+
+## 13. Application Settings.
+
+A lot of Angular.js project have internal data, which declares in many places, complicating the support and modules expansion. It is not just about common constant files (gender, countries, colors). For example, we have an application "TITLE" parameter.
+
+```javascript
+
+app.constant("APP_SETTINGS", {
+
+  "TITLE": "Food Recepies"
+
+});
+
+```
+
+Inject that constant in controller, service, factory is very simple and trivial task, but what about variables definition for using them within html-code? Try do this:
+
+<ol>
+<li> Include <i>"APP_SETTINGS"</i> constant into $rootScope controller. </li>
+<li> Declare a suitable variable, which will describe internal application settings like this: $rootScope.appConfig = "APP_SETTINGS". </li>
+</ol>
+
+And declare it inside "Header", "Login Page" and "Forgot Password Page":
+
+```html
+
+<span> {{ appConfig.TITLE }} </span>
+
+```
+
+Now we may change the title without any worrying. Furthermore, each new developer who will work with your code, dont need where is exactly uses that parameter, he have to know just a location for "APP_SETTINGS" constant. Usually, it is a directory "settigns" in main "app" folder.
+
+## 14. webApi module.
+
+Nowadays virtually all Angular.js project have a close relationship with server-side to manage the data. Authorization, getting some data for tables creating, update something or even administrate mobile apps - all of this depend on a stable & well thought out functionality.
+
+It should be a clear division of logic for web Api module, because some block would be changing very often in the early stages of development, but another - not. Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus it should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
+
+Here you can read and download the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
+
+<b>Notice:</b> webApi module shouldn't know about your internal data, relationships or smth else, because it has been included only for sending queries to server-side and getting an appropriate responses. It is a really big trouble when somebody declares $http methods inside controllers and specifies a lot of data there.
+
+## 15. Repositories.
+
+In continuation of the previous paragraph, now we'll talk about entities which handle $http requests and do some actions after successful or failure response. But, this components don't know nothing about internal data too.
+
+Repository is responsible for:
+
+<ul>
+<li> Sending http-requests with specified params. </li>
+<li> Implementation response functionality and notify controller. </li>
+<li> Manage all internal error requests and different exceptions. </li>
+</ul>
+
+```javascript
+
+// repository declaration above...
+function getAll(){
+  return webApi.getAllFoodItems();
+}
+
+```
+
+In this example showed how repository may interact with webApi module without any data or logic disclosing. This approach helps to save the components encapsulation and allows to work at the higher abstraction level.
+
+Recommended to use in repositories for methods without returning a flexible exception handlers, which certainly allow code much easier to read.
+
+```javascript
+
+function update(id){
+  webApi.updateFoodById({
+    "url": { "id": id } 
+  }).success(function(response){
+    checkResponse(response, "Updated!");
+  });
+}
+
+// Exception handler.
+function checkResponse(response, message) {
+  if (response && response.data) {
+    // Case #1
+    // Example: alert(message);
+  } else {
+    // Case #2
+    // Example: display default message with text from response or constant file.
+  }
+}
+
+```
+
+<b>Explanation:</b> 
+
+<ol>
+<li> In first case enough to manage an existing response and show on UI a specific message. It doesn't matter which service obtains and  processes a derived message at the moment.</li>
+<li> In next one we have to write some logic for catching the exceptions and show information from internal constant file if necessary. </li>
+</ol>
+
+To improve an existing code and implementation the encapsulation principles let's use a special <i>"Message Service"</i>, because many repositories may contain similar method "checkReponse()".
+
+```javascript
+
+// Code in repository.
+function update(id){
+  webApi.updateFoodById({
+    "url": { "id": id } 
+  }).success(function(response){
+    messageService.checkResponse(response, "Updated!");
+  });
+}
+
+// Code in some service.
+this.checkResponse = function(response, message) {
+  // Internal implementation.
+}
+
+```                      
