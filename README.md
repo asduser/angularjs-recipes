@@ -1,4 +1,4 @@
-# Angular.js Recepies
+# Angular.js Recepies: viewing around.
 
 Here you can find the often used tricks, which compliance certainly would help you in real projects.
 
@@ -61,7 +61,64 @@ For example:
 
 At the second example you clearly understand what does the code. First example provides you a logic of double negation. It's so easy sample, but the each complication in code will make understanding more difficult (e.g ternary operator with a multiple sequence).
 
-## 4. Use filters.
+## 4. Project architecture.
+
+There are a lot of different cases how to develop an internal application levels, but I would like to share you my own solution which allows to create a flexible and scalable structure in the future.
+
+image
+
+In app.js declare the common modules, dependencies and the master module. It's looks like this:
+
+```javascript
+
+angular.module("app", [
+  
+  "app.constant",
+  "app.filters",
+  "app.helpers",
+  "app.modals",
+  "_webApi_",    
+  "app.utils",
+  
+  // another dependencies
+
+]);
+
+``` 
+
+## 5. Designation Components.
+
+It is a good approach to use the single modules for each functional set of entities due to code modularity, structuration, a single component responsibility.
+
+As for declaring component dependencies, so I recommend you work with "IoC container" like this:
+
+```javascript
+
+// Module.js file in repositories directory.
+angular
+  .module("app.repositories", []);
+  
+// Some repository is here.  
+angular
+  .module("app.repositories")
+  .factory("repositories.Food", foodRepository);
+  
+function foodRepository(appSettings){
+
+  // logic is here...  
+
+}
+
+// IoC container.
+foodRepository.$inject = [
+  "constant.APP_SETTINGS"
+];
+
+```
+
+"IoC container" is responsible for external dependencies, functional components and another entities inside a current item.  
+
+## 6. Use filters.
 
 If your application uses a lot of different conversions, expression, values translation or smth else - just use a filters. It makes your code clearly, shorter and easy to support. Any time a specific block of code could be changed, modified or absolutely replaced by another logic.
 
@@ -107,7 +164,7 @@ My name is Bob. I am 20
 My name is John. I am 25 
 ```
 
-## 5. Controller logic division.
+## 7. Controller logic division.
 
 Controller is your place where you may manage your data, invoke an appropriate methods and use different factories, services etc. One of the benefits of using multiple controllers is a lack of code duplication. Each repeater block of logic recommended to transfer into a suitable entity.
 
@@ -143,7 +200,7 @@ We dont need the details what the imageService does, which actions and operation
 
 But dont rush to write a code and clone a bunch of services, which won't be a unique entity or responds only for one JavaScript method. Service or factory is a set of methods, which have a similar behaviour and exist as a different plain levels of big complicated task.
 
-## 6. Controller naming.
+## 8. Controller naming.
 
 Try use postfix Controller instead a famous Ctrl. It does titles more readable and looks like a completed word.
 
@@ -157,7 +214,7 @@ app.controller("PlayerController", ["$scope", function($scope){
 
 ```
 
-## 7. Helpers.
+## 9. Helpers.
 
 <b>Description:</b>
 
@@ -191,7 +248,7 @@ app.service("foodConversionService", function(){
 
 And here is a good place to work with weight transformation, changing the liquid values and other physical and chemical food properties.
 
-## 8. Useful directives.
+## 10. Useful directives.
 
 Often we need to pass some data into a specific entity to gain a some functional html-code. And here is a solution - Angular.js directives. But remember, each component consumes a certain amount operating memory, moreover it exponentially loads the browser.
 
@@ -203,7 +260,7 @@ There is a reason why we need to use a directives deliberately. Use derectives o
 <li> Be careful when you work with graphic elements, try simplify an existing code as much as it possible. </li>
 </ul>
 
-## 9. Constants.
+## 11. Constants.
 
 For a qualitative interation a several components we may take care about the process of data representation. Don't forget that a truly scalable application shouldn't depend on the variables. As a result, use a special Angular.js component - constant.
 
@@ -264,7 +321,7 @@ There is no need to find all existing variables within application, which signif
 Better to spend more time thinking about the additional constant type, than have only wasting time to find and fix values in the future.
 
 
-## 10. Utils.
+## 12. Utils.
 
 <b>Description:</b>
 
@@ -299,13 +356,13 @@ To solve that issue try modify an existing service as much as it possible:
 
 But there are cases where the use of additional files to ensure correct operation of the module is necessary. Anyway, try make "utils" service universal.
 
-## 11. Libraries.
+## 13. Libraries.
 
 External libraries, modules and minified files should be located into a special application directory - lib. There are only libraries, which are not associated with our app.
 
 <i>For example:</i> jQuery, D3.js, Angular.js etc.
 
-## 12. Modals.
+## 14. Modals.
 
 Often a modern Angular.js applications use modal windows for user interaction, which is especially useful when exist a lot of different dynamic interfaces. <i>For example:</i> content filters, confirmations, alerts, run-time installers etc.
 
@@ -355,7 +412,7 @@ resolve: {
 
 Moreover, you may transmit into it a current controller variables, collections, methods or even $rootScope parameters. Each new dependency injection passes throughout ModalManager and there is no need declare many different controllers, services only for delivering some data into specific modal windows.
 
-## 13. Application Settings.
+## 15. Application Settings.
 
 A lot of Angular.js project have internal data, which declares in many places, complicating the support and modules expansion. It is not just about common constant files (gender, countries, colors). For example, we have an application "TITLE" parameter.
 
@@ -386,9 +443,9 @@ And declare it inside "Header", "Login Page" and "Forgot Password Page":
 
 Now we may change the title without any worrying. Furthermore, each new developer who will work with your code, dont need where is exactly uses that parameter, he have to know just a location for "APP_SETTINGS" constant. Usually, it is a directory "settigns" in main "app" folder.
 
-## 14. webApi module.
+## 16. webApi module.
 
-Nowadays virtually all Angular.js project have a close relationship with server-side to manage the data. Authorization, getting some data for tables creating, update something or even administrate mobile apps - all of this depend on a stable & well thought out functionality.
+Nowadays virtually all Angular.js project have a close relationship with server-side to manage the data. Authorization, getting some data for tables creating, update something or even administrate mobile apps - all of this depend on a stable and well thought out functionality.
 
 It should be a clear division of logic for web Api module, because some block would be changing very often in the early stages of development, but another - not. Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus it should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
 
@@ -396,7 +453,7 @@ Here you can read and download the RESTful webApi module with settings, core fun
 
 <b>Notice:</b> webApi module shouldn't know about your internal data, relationships or smth else, because it has been included only for sending queries to server-side and getting an appropriate responses. It is a really big trouble when somebody declares $http methods inside controllers and specifies a lot of data there.
 
-## 15. Repositories.
+## 17. Repositories.
 
 In continuation of the previous paragraph, now we'll talk about entities which handle $http requests and do some actions after successful or failure response. But, this components don't know nothing about internal data too.
 
