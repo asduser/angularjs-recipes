@@ -65,7 +65,7 @@ At the second example you clearly understand what does the code. First example p
 
 There are a lot of different cases how to develop an internal application levels, but I would like to share you my own solution which allows to create a flexible and scalable structure in the future.
 
-image
+<img src="https://github.com/asduser/angularjs-recepies/blob/master/bestPractices.png" alt="project structure" />
 
 In app.js declare the common modules, dependencies and the master module. It's looks like this:
 
@@ -449,7 +449,7 @@ Nowadays virtually all Angular.js project have a close relationship with server-
 
 It should be a clear division of logic for web Api module, because some block would be changing very often in the early stages of development, but another - not. Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus it should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
 
-Here you can read and download the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
+Here you can <a href="https://github.com/asduser/webApi-angularjs" target="_blank"><b>read and download</b></a> the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
 
 <b>Notice:</b> webApi module shouldn't know about your internal data, relationships or smth else, because it has been included only for sending queries to server-side and getting an appropriate responses. It is a really big trouble when somebody declares $http methods inside controllers and specifies a lot of data there.
 
