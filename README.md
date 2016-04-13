@@ -10,6 +10,10 @@
 
 > Made by @asduser - https://github.com/asduser.
 
+#### Download in PDF
+
+https://github.com/asduser/angularjs-recepies/blob/master/Angular_ViewingAround.pdf
+
 ---
 
 ## 1. Decrease the HTML confusion.
