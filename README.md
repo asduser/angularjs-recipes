@@ -6,27 +6,25 @@
 
 > Here you can find the often used tricks, which compliance certainly would help you in real projects.
 
-> Document is periodically updated, so you can always read and download the latest version here:  <a href="https://github.com/asduser/angularjs-recepies">github</a>
+> Document is periodically updated, so you can always read and download the latest version here:  https://github.com/asduser/angularjs-recepies.
 
-> Made by <a href="https://github.com/asduser">asduser</a>.
+> Made by @asduser - https://github.com/asduser.
 
 ---
 
 ## 1. Decrease the HTML confusion.
 
-<b>Description:</b>
+**Description:**
 
 As you know, HTML is a hypertext markup language, not a programming and not a some application logical core. It was invented to solve an issues of UI representation.
 
 But with the release the Angular.js, many beginner developers have written a lot of critical logic inside html-blocks. Why it can be dangerous?
 
-<ol>
-<li> You can't to debug that code properly. Variables, expressions, functional methods and the sets of data - all of that may be ignored in debugger mode. </li>
-<li> Each new JavaScript code inside HTML significantly makes worse the common code readability. Over time you will find it difficult to support that "view". </li>
-<li> In most cases this approach prevents the code reuse, because each block has been closely related with a corresponding application logic. </li>
-</ol>
+1. You can't to debug that code properly. Variables, expressions, functional methods and the sets of data - all of that may be ignored in debugger mode. 
+2. Each new JavaScript code inside HTML significantly makes worse the common code readability. Over time you will find it difficult to support that "view". 
+3. In most cases this approach prevents the code reuse, because each block has been closely related with a corresponding application logic. 
 
-<b>Solution:</b>
+**Solution:**
 
 Try decrease the javascript uses inside html blocks. Do it so often as you can. It may cause some discomfort (you have to take care about application architecture), but after a time you reach a success.
 
@@ -52,7 +50,7 @@ Angular.js provides a powerful methodology of using html-templates and ignoring 
 
 ```
 
-Now, to make changes enough modify <i>my-tab1.html</i> or <i>my-tab2.html</i> which are located in appropriate directory.    
+Now, to make changes enough modify *my-tab1.html* or *my-tab2.html* which are located in appropriate directory.    
 
 
 ## 3. Explicit named variables.
@@ -75,7 +73,7 @@ At the second example you clearly understand what does the code. First example p
 
 There are a lot of different cases how to develop an internal application levels, but I would like to share you my own solution which allows to create a flexible and scalable structure in the future.
 
-<img src="https://github.com/asduser/angularjs-recepies/blob/master/image1.png" alt="project structure" />
+![Image](https://github.com/asduser/angularjs-recepies/blob/master/image1.png?raw=true)
 
 In app.js declare the common modules, dependencies and the master module. It's looks like this:
 
@@ -94,7 +92,32 @@ angular.module("app", [
 
 ]);
 
-``` 
+```
+ 
+Now let's talk about project architecture above. First of all, a main module was declared that means all another components have to be injected into it.
+
+There is a naming methodology for native application modules such as "filters, helpers, utils" etc. According to this principle we certainly prevent the presence of suspicious or undesirable components in project.
+ 
+Explanation:
+
+
+* **Constant**: contains all static variables for the common entities.
+* **Controllers**: project controllers store with 2-level nesting, for example: *controllers -> login -> LoginController.js*, *controllers -> login -> ForgotPasswordController.js*.
+* **Css**: styles for different .html representation. 
+* **Directives**: angular.js directives store with 2-level nesting, for example -> *directives -> form-validator -> formValidator.js*.
+* **Filters**: set of filters.
+* **Helpers**: a special components to work with controllers (see below).
+* **Translations**: different languages for the current application.
+* **Images**: graphic objects, .svg, .gif etc.
+* **Lib**: external libraries (see below).
+* **Modals**: interactive user windows to expose some additional functionality.
+* **Repositories**: internal entities to interact with webApi component.
+* **Settings**: project configuration file (.js).
+* **Utils**: set of specific services, factories which are independent from the current project structure and may bi included into another project.
+* **Views**: .html views. Desirable to use an analogical level nesting which is described in controllers directory. For example: we have *controller -> food -> FoodController*. So, a good solution is creating a directory *views -> food -> main.html*, where will be displayed all existing items. To add a new .html page, which is responsible for some Food actions, just add it *into views -> food -> editFood.html*. 
+* **webApi**: $http requests manager.
+
+You may be sure you will save a lot of time and there is no need for finding a concrete method not knowing where the parent file is exactly located.
 
 ## 5. Designation Components.
 
@@ -138,7 +161,7 @@ If your application uses a lot of different conversions, expression, values tran
 
 <div ng-controller="MyCtrl">
   <ul>
-  <li ng-repeat="u in users"> {{ u | userinfo }} </li>
+  <li ng-repeat="u in users"> {{ u | userinfo }} 
   </ul>
 </div>
 
@@ -167,7 +190,7 @@ myApp.filter("userinfo", function(){
 
 ```
 
-<b>Result is:</b>
+**Result is:**
 
 ```html
 My name is Bob. I am 20
@@ -227,23 +250,21 @@ app.controller("PlayerController", ["$scope", function($scope){
 
 ## 9. Helpers.
 
-<b>Description:</b>
+**Description:**
 
 If two or more controllers have a resembling blocks of code, methods here is a solution: create a service\factory which performs within itself all of that logic. Helpers aren't like a utils, services a factories like you used to see them. There are a special entities, which implement only a specific set of methods for one or more controllers.
 
 For example, here is a FoodController where user may order food, see the current food directory, rank them or just browse a chemical composition of famous items.
 
-Quite possibly will be the case when it will be necessary to covnert one value into another (ex. <i>kilograms</i> (kg) to <i>pounds</i> (lb), <i>liters</i> (l) to <i>milliliters</i> (mL) etc.). Create a single factory or service isn't a best decision, because service is responsible for a specific functionality and may be injected into another Angular.js entity.
+Quite possibly will be the case when it will be necessary to covnert one value into another (ex. *kilograms* (kg) to *pounds* (lb), *liters* (l) to *milliliters* (mL) etc.). Create a single factory or service isn't a best decision, because service is responsible for a specific functionality and may be injected into another Angular.js entity.
  
 What do you think, is it up to our expectations? There are a several disadvantages of using such services:
 
-<ol>
-<li> The service will be very common and has a lot of unnecessary functions. </li>
-<li> Inability division of existing functionality into single entities, because there are a lot of codependent JavaScript blocks. </li>
-<li> With increasing the size of application will increase the number of methods. </li>
-</ol>
+1. The service will be very common and has a lot of unnecessary functions. 
+2. Inability division of existing functionality into single entities, because there are a lot of codependent JavaScript blocks. 
+3. With increasing the size of application will increase the number of methods. 
 
-<b>Solution:</b>
+**Solution:**
 
 Create a single service\factory which will depend on a specific controller(s), but implement some logic inside without duplicating throughout the application.
 
@@ -265,11 +286,9 @@ Often we need to pass some data into a specific entity to gain a some functional
 
 There is a reason why we need to use a directives deliberately. Use derectives only for use - it's a main mistake of beginners Angular.js developers, cause in many times we can do the usual template without a specific logic and postrenderring.
 
-<ul>
-<li> Think twice, before you'll use some component. </li>
-<li> Use directives in places repetition code blocks. </li>
-<li> Be careful when you work with graphic elements, try simplify an existing code as much as it possible. </li>
-</ul>
+* Think twice, before you'll use some component. 
+* Use directives in places repetition code blocks. 
+* Be careful when you work with graphic elements, try simplify an existing code as much as it possible. 
 
 ## 11. Constants.
 
@@ -290,7 +309,7 @@ app.constant("userDetails", {
 
 ```
 
-Here we can see a special <i>"userDetails"</i> constant, which contains the additional information about our application visitors. To add a new property or modify an existing - just enough to change it in one location, there is no need search for it throughout the whole application.
+Here we can see a special *"userDetails"* constant, which contains the additional information about our application visitors. To add a new property or modify an existing - just enough to change it in one location, there is no need search for it throughout the whole application.
 
 A good practive to use constants for the complicated block of logic, repeating methods, codependent components etc.
 
@@ -322,10 +341,8 @@ if (user.role != "Anonymous") {
 
 The process of variable value changing includes:
 
-<ol>
-<li> Openning a specific constant file. </li>
-<li> Setting a new value to variable. </li>
-</ol>
+1. Openning a specific constant file. 
+2. Setting a new value to variable. 
 
 There is no need to find all existing variables within application, which significantly saves the time and simplifies a common work.
 
@@ -334,7 +351,7 @@ Better to spend more time thinking about the additional constant type, than have
 
 ## 12. Utils.
 
-<b>Description:</b>
+**Description:**
 
 As mentioned above, the repeating code should be involved into a service\factory to it reusing. It a good practice create such a functional modules, which may be transferred into another project without any difficulties.
 
@@ -355,15 +372,13 @@ $("#some-field").datepicker();
 
 Static jQuery #id handling, using another modules o factories to exapose some additional functionality, injection of constant files and many other reasons due to which the service cann't be called a "reusable".
 
-<b>Solution:</b>
+**Solution:**
 
 To solve that issue try modify an existing service as much as it possible:
 
-<ul>
-<li> Get rid of extra dependencies. </li>
-<li> No need to use an internal constant files inside a "utils services\factories". </li>
-<li> Don't use the static jQuery element handling. </li>
-</ul>
+* Get rid of extra dependencies. 
+* No need to use an internal constant files inside a "utils services\factories". 
+* Don't use the static jQuery element handling. 
 
 But there are cases where the use of additional files to ensure correct operation of the module is necessary. Anyway, try make "utils" service universal.
 
@@ -371,11 +386,11 @@ But there are cases where the use of additional files to ensure correct operatio
 
 External libraries, modules and minified files should be located into a special application directory - lib. There are only libraries, which are not associated with our app.
 
-<i>For example:</i> jQuery, D3.js, Angular.js etc.
+*For example:* jQuery, D3.js, Angular.js etc.
 
 ## 14. Modals.
 
-Often a modern Angular.js applications use modal windows for user interaction, which is especially useful when exist a lot of different dynamic interfaces. <i>For example:</i> content filters, confirmations, alerts, run-time installers etc.
+Often a modern Angular.js applications use modal windows for user interaction, which is especially useful when exist a lot of different dynamic interfaces. *For example:* content filters, confirmations, alerts, run-time installers etc.
 
 To simplify the main logic and prevent code duplication inside each of that modal window, include a special "ModalManager" where exist a common functional methods.
 
@@ -406,7 +421,7 @@ $scope.openFoodDetailsModal = function(size) {
 
 As you see, we used a special component to manage our modals. At this point it doesn't matter, but it is important to understand how controllers may interact between themselves.
 
-<i>"openFoodDetailsModal"</i> method render a new window, which will retrieve specified <i>"FoodDetailsController"</i> and some data when it initializes. The last one contains in "resolve" field and it is a plain object, each field of which is a specific data type.
+*"openFoodDetailsModal"* method render a new window, which will retrieve specified *"FoodDetailsController"* and some data when it initializes. The last one contains in "resolve" field and it is a plain object, each field of which is a specific data type.
 
 To inject more different values enough add a new files, ex.:
 
@@ -439,10 +454,8 @@ app.constant("APP_SETTINGS", {
 
 Inject that constant in controller, service, factory is very simple and trivial task, but what about variables definition for using them within html-code? Try do this:
 
-<ol>
-<li> Include <i>"APP_SETTINGS"</i> constant into $rootScope controller. </li>
-<li> Declare a suitable variable, which will describe internal application settings like this: $rootScope.appConfig = "APP_SETTINGS". </li>
-</ol>
+1. Include *"APP_SETTINGS"* constant into $rootScope controller. 
+2. Declare a suitable variable, which will describe internal application settings like this: $rootScope.appConfig = "APP_SETTINGS". 
 
 And declare it inside "Header", "Login Page" and "Forgot Password Page":
 
@@ -462,9 +475,9 @@ It should be a clear division of logic for web Api module, because some block wo
 
 Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus all of these components should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
 
-Here you can <a href="https://github.com/asduser/webApi-angularjs" target="_blank"><b>read and download</b></a> the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
+At the section *"Useful links"* you can **read and download** the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
 
-<b>Notice:</b> webApi module shouldn't know about your internal data, relationships or smth else, because it has been included only for sending queries to server-side and getting an appropriate responses. It is a really big trouble when somebody declares $http methods inside controllers and specifies a lot of data there.
+**Notice:** webApi module shouldn't know about your internal data, relationships or smth else, because it has been included only for sending queries to server-side and getting an appropriate responses. It is a really big trouble when somebody declares $http methods inside controllers and specifies a lot of data there.
 
 ## 17. Repositories.
 
@@ -472,11 +485,9 @@ In continuation of the previous paragraph, now we'll talk about entities which h
 
 Repository is responsible for:
 
-<ul>
-<li> Sending http-requests with specified params. </li>
-<li> Implementation response functionality and notify controller. </li>
-<li> Manage all internal error requests and different exceptions. </li>
-</ul>
+* Sending http-requests with specified params. 
+* Implementation response functionality and notify controller. 
+* Manage all internal error requests and different exceptions. 
 
 ```javascript
 
@@ -514,14 +525,12 @@ function checkResponse(response, message) {
 
 ```
 
-<b>Explanation:</b> 
+**Explanation:** 
 
-<ol>
-<li> In first case enough to manage an existing response and show on UI a specific message. It doesn't matter which service obtains and  processes a derived message at the moment.</li>
-<li> In next one we have to write some logic for catching the exceptions and show information from internal constant file if necessary. </li>
-</ol>
+1. In first case enough to manage an existing response and show on UI a specific message. It doesn't matter which service obtains and  processes a derived message at the moment.
+2. In next one we have to write some logic for catching the exceptions and show information from internal constant file if necessary. 
 
-To improve an existing code and implementation the encapsulation principles let's use a special <i>"Message Service"</i>, because many repositories may contain similar method "checkReponse()".
+To improve an existing code and implementation the encapsulation principles let's use a special *"Message Service"*, because many repositories may contain similar method "checkReponse()".
 
 ```javascript
 
@@ -543,10 +552,8 @@ this.checkResponse = function(response, message) {
 
 ### 18. Useful links.
 
-<ol>
-<li> <a href="https://github.com/asduser/webApi-angularjs">webApi RESTful module</a> | Powerful and flexible tool to work with $http. </li>
-<li> <a href="https://github.com/asduser/form-validator">html forms validator</a> | A special directive which provides functionality to work with html forms. </li>
-<li> <a href="https://github.com/asduser/ui-notifications">notifcication service</a> | Handles a different UI messages. </li>
-<li> <a href="https://github.com/asduser/storage-manager-anguarljs">storage manager</a> | Service to manage data storages on UI-side. </li>
-<li> <a href="https://github.com/asduser/grunt-automation-example">grunt automation tool</a> | How to set up task manager to simplify the process of development Angular.js project. </li>
-</ol>                      
+* https://github.com/asduser/webApi-angularjs - webApi RESTful module. *Powerful and flexible tool to work with $http*.
+* https://github.com/asduser/form-validator - html forms validator. *A special directive which provides functionality to work with html forms*.
+* https://github.com/asduser/ui-notifications - notifcication service. *Handles a different UI messages*.
+* https://github.com/asduser/storage-manager-anguarljs - storage manager. *Service to manage data storages on UI-side*.
+* https://github.com/asduser/grunt-automation-example - grunt automation tool. *How to set up task manager to simplify the process of development Angular.js project*.
