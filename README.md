@@ -1,6 +1,22 @@
 # Angular.js Recepies: viewing around.
 
-Here you can find the often used tricks, which compliance certainly would help you in real projects.
+---
+
+> This practical guide will help you avoid mistakes in construction of building complex architecture and more readable code.
+
+> Here you can find the often used tricks, which compliance certainly would help you in real projects.
+
+> Document is periodically updated, so you can always read and download the latest version here:  <a href="https://github.com/asduser/angularjs-recepies">github</a>
+
+> Made by <a href="https://github.com/asduser">asduser</a>.
+
+---
+
+#### Download PDF
+
+<a href="https://github.com/asduser/angularjs-recepies/blob/master/Angular_ViewingAround.pdf"><b>Link</b></a>.
+
+---
 
 ## 1. Decrease the HTML confusion.
 
@@ -52,10 +68,10 @@ Dont try mislead your teammates or another developers, who will support you code
 For example:
 ```html
 <!-- #1 -->
-<div ng-hide"!isVisible" class="container"></div>
+<div ng-hide="!isVisible" class="container"></div>
 
 <!-- #2 -->
-<div ng-show"isVisible" class="container"></div>
+<div ng-show="isVisible" class="container"></div>
 
 ```
 
@@ -65,7 +81,7 @@ At the second example you clearly understand what does the code. First example p
 
 There are a lot of different cases how to develop an internal application levels, but I would like to share you my own solution which allows to create a flexible and scalable structure in the future.
 
-<img src="https://github.com/asduser/angularjs-recepies/blob/master/bestPractices.png" alt="project structure" />
+<img src="https://github.com/asduser/angularjs-recepies/blob/master/image1.png" alt="project structure" />
 
 In app.js declare the common modules, dependencies and the master module. It's looks like this:
 
@@ -166,7 +182,7 @@ My name is John. I am 25
 
 ## 7. Controller logic division.
 
-Controller is your place where you may manage your data, invoke an appropriate methods and use different factories, services etc. One of the benefits of using multiple controllers is a lack of code duplication. Each repeater block of logic recommended to transfer into a suitable entity.
+Controller is your place where you may manage your data, invoke an appropriate methods and use different factories, services etc. One of the benefits of using multiple controllers is a lack of code duplication. Each repeating block of logic recommended to transfer into a suitable entity.
 
 ```javascript
   angular
@@ -181,18 +197,19 @@ You have to think out your further actions immediately before creating a new ser
 ```javascript
 // Example #1
 
-app.controller("UserController", ["$scope", "imageService", function($scope, imageService){
+app.controller("UserController",  ["$scope", "imageService", 
+  function($scope, imageService){
 
-  // ....
-  
-  $scope.getAvatar = function(url){
-    return imageService.get(url); 
-  };
-  
-  // Returns default image url.
-  var image1 = $scope.getAvatar(null);
+    // ....
+    
+    $scope.getAvatar = function(url){
+      return imageService.get(url); 
+    };
+    
+    // Returns default image url.
+    var image1 = $scope.getAvatar(null);
 
-}]);
+  }]);
   
 ```
 
@@ -447,7 +464,9 @@ Now we may change the title without any worrying. Furthermore, each new develope
 
 Nowadays virtually all Angular.js project have a close relationship with server-side to manage the data. Authorization, getting some data for tables creating, update something or even administrate mobile apps - all of this depend on a stable and well thought out functionality.
 
-It should be a clear division of logic for web Api module, because some block would be changing very often in the early stages of development, but another - not. Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus it should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
+It should be a clear division of logic for web Api module, because some block would be changing very often in the early stages of development, but another - not. 
+
+Unlikely we need often change the basic types of database queries ($http.put, $http.get, $http.post, $http.delete etc.), thus all of these components should be located into a "core" module. It rarely changes, because the fundamental logic described there and it is no need to make changes every time when you add a new http-request.
 
 Here you can <a href="https://github.com/asduser/webApi-angularjs" target="_blank"><b>read and download</b></a> the RESTful webApi module with settings, core functionality, a set of special query formatters and filters.
 
@@ -526,4 +545,14 @@ this.checkResponse = function(response, message) {
   // Internal implementation.
 }
 
-```                      
+```
+
+### 18. Useful links.
+
+<ol>
+<li> <a href="https://github.com/asduser/webApi-angularjs">webApi RESTful module</a> | Powerful and flexible tool to work with $http. </li>
+<li> <a href="https://github.com/asduser/form-validator">html forms validator</a> | A special directive which provides functionality to work with html forms. </li>
+<li> <a href="https://github.com/asduser/ui-notifications">notifcication service</a> | Handles a different UI messages. </li>
+<li> <a href="https://github.com/asduser/storage-manager-anguarljs">storage manager</a> | Service to manage data storages on UI-side. </li>
+<li> <a href="https://github.com/asduser/grunt-automation-example">grunt automation tool</a> | How to set up task manager to simplify the process of development Angular.js project. </li>
+</ol>                      
