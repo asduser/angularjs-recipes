@@ -12,12 +12,6 @@
 
 ---
 
-#### Download PDF
-
-<a href="https://github.com/asduser/angularjs-recepies/blob/master/Angular_ViewingAround.pdf"><b>Link</b></a>.
-
----
-
 ## 1. Decrease the HTML confusion.
 
 <b>Description:</b>
