@@ -1,4 +1,4 @@
-# Angular.js Recepies: viewing around.
+# Angular.js Recipes: viewing around.
 
 ---
 
@@ -6,13 +6,13 @@
 
 > Here you can find the often used tricks, which compliance certainly would help you in real projects.
 
-> Document is periodically updated, so you can always read and download the latest version here:  https://github.com/asduser/angularjs-recepies.
+> Document is periodically updated, so you can always read and download the latest version here:  https://github.com/asduser/angularjs-recipes.
 
 > Made by @asduser - https://github.com/asduser.
 
 #### Download in PDF
 
-https://github.com/asduser/angularjs-recepies/blob/master/Angular_ViewingAround.pdf
+https://github.com/asduser/angularjs-recipes/blob/master/Angular_ViewingAround.pdf
 
 ---
 
