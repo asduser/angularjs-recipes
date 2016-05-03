@@ -1,4 +1,4 @@
-# Angular.js Recipes: viewing around.
+# Angular.js Project Architecture: viewing around.
 
 ---
 
