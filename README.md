@@ -1,4 +1,4 @@
-# Angular.js Project Architecture: viewing around.
+# Angular.js Project Architecture. Part I
 
 ---
 
