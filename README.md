@@ -1,7 +1,5 @@
 # Angular.js Project Architecture. Part I
-
 ---
-
 > This practical guide will help you avoid mistakes in construction of building complex architecture and more readable code.
 
 > Here you can find the often used tricks, which compliance certainly would help you in real projects.
