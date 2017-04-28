@@ -559,3 +559,10 @@ this.checkResponse = function(response, message) {
 * https://github.com/asduser/ui-notifications - notifcication service. *Handles a different UI messages*.
 * https://github.com/asduser/storage-manager-anguarljs - storage manager. *Service to manage data storages on UI-side*.
 * https://github.com/asduser/grunt-automation-example - grunt automation tool. *How to set up task manager to simplify the process of development Angular.js project*.
+
+
+## Licence
+
+MIT License
+
+Copyright (c) 2017 [asduser](https://github.com/asduser)
